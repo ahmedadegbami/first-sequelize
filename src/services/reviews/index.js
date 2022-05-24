@@ -1,5 +1,7 @@
 import express from "express";
 import models from "../../db/models/index.js";
+import createError from "http-errors";
+
 const { Product, Review } = models;
 
 const reviewRouter = express.Router();
@@ -10,7 +12,7 @@ reviewRouter.get("/", async (req, res, next) => {
     res.send(reviews);
   } catch (error) {
     console.log(error);
-    next(err);
+    next(error);
   }
 });
 
@@ -24,7 +26,7 @@ reviewRouter.get("/:id", async (req, res, next) => {
     }
   } catch (error) {
     console.log(error);
-    next(err);
+    next(error);
   }
 });
 
@@ -34,7 +36,7 @@ reviewRouter.post("/", async (req, res, next) => {
     res.send(newReview);
   } catch (error) {
     console.log(error);
-    next(err);
+    next(error);
   }
 });
 
@@ -49,7 +51,7 @@ reviewRouter.put("/:id", async (req, res, next) => {
     res.send(data);
   } catch (error) {
     console.log(error);
-    next(err);
+    next(error);
   }
 });
 
@@ -63,7 +65,7 @@ reviewRouter.delete("/:id", async (req, res, next) => {
     res.send({ rows });
   } catch (error) {
     console.log(error);
-    next(err);
+    next(error);
   }
 });
 
