@@ -1,6 +1,6 @@
 import express from "express";
 import models from "../../db/models/index.js";
-const { Product, Review } = models;
+const { Product, Review, Category } = models;
 import createError from "http-errors";
 
 const productRouter = express.Router();
@@ -8,7 +8,10 @@ const productRouter = express.Router();
 productRouter.get("/", async (req, res, next) => {
   try {
     const products = await Product.findAll({
-      include: { model: Review, attributes: ["text", "username"] }
+      include: [
+        { model: Review, attributes: ["text", "username"] },
+        { model: Category, through: { attributes: [] } }
+      ]
     });
     res.send(products);
   } catch (error) {

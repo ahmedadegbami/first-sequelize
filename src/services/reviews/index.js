@@ -1,6 +1,5 @@
 import express from "express";
 import models from "../../db/models/index.js";
-import createError from "http-errors";
 
 const { Product, Review } = models;
 
@@ -12,7 +11,7 @@ reviewRouter.get("/", async (req, res, next) => {
     res.send(reviews);
   } catch (error) {
     console.log(error);
-    next(error);
+    next(err);
   }
 });
 
