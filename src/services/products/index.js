@@ -1,6 +1,6 @@
 import express from "express";
 import models from "../../db/models/index.js";
-const { Product, Review, Category } = models;
+const { Product, Review, Category, ProductCategory } = models;
 import createError from "http-errors";
 
 const productRouter = express.Router();
@@ -10,7 +10,11 @@ productRouter.get("/", async (req, res, next) => {
     const products = await Product.findAll({
       include: [
         { model: Review, attributes: ["text", "username"] },
-        { model: Category, through: { attributes: [] } }
+        {
+          model: Category,
+          attributes: ["name"],
+          through: { attributes: [] }
+        }
       ]
     });
     res.send(products);
@@ -37,7 +41,21 @@ productRouter.get("/:id", async (req, res, next) => {
 
 productRouter.post("/", async (req, res, next) => {
   try {
-    const newProduct = await Product.create(req.body);
+    const { name, description, image, price, categories } = req.body;
+    const newProduct = await Product.create({
+      name,
+      description,
+      image,
+      price
+    });
+
+    const productId = newProduct.id;
+    const data = [];
+    categories.forEach((categoryId) => {
+      data.push({ productId, categoryId });
+    });
+    await ProductCategory.bulkCreate(data);
+
     res.send(newProduct);
   } catch (error) {
     console.log(error);
