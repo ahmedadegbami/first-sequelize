@@ -1,13 +1,34 @@
 import express from "express";
 import models from "../../db/models/index.js";
 const { Product, Review, Category, ProductCategory } = models;
-import createError from "http-errors";
+import { Op } from "sequelize";
+import { query } from "express";
 
 const productRouter = express.Router();
 
 productRouter.get("/", async (req, res, next) => {
   try {
     const products = await Product.findAll({
+      where: req.query.search && {
+        [Op.or]: [
+          {
+            name: {
+              [Op.iLike]: `%${req.query.search}%`
+            }
+          },
+          {
+            description: {
+              [Op.iLike]: `%${req.query.search}%`
+            }
+          },
+          {
+            "$categories.name$": {
+              [Op.iLike]: `%${req.query.search}%`
+            }
+          }
+        ]
+      },
+
       include: [
         { model: Review, attributes: ["text", "username"] },
         {
@@ -15,7 +36,8 @@ productRouter.get("/", async (req, res, next) => {
           attributes: ["name"],
           through: { attributes: [] }
         }
-      ]
+      ],
+      order: [["price", "DESC"]]
     });
     res.send(products);
   } catch (error) {
