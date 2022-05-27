@@ -26,7 +26,7 @@ server.use("/categories", categoryRouter);
 server.use("/likes", likeRouter);
 server.use("/cart", cartRouter);
 
-const { PORT = 5001 } = process.env;
+const { PORT = 5002 } = process.env;
 
 server.use(badRequestErrorHandler);
 server.use(notFoundErrorHandler);
