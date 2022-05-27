@@ -25,4 +25,4 @@ User.belongsToMany(Product, {
   through: { model: Like, unique: false }
 });
 
-export default { Product, Review, Category, ProductCategory, User };
+export default { Product, Review, Category, ProductCategory, User, Like };

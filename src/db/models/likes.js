@@ -9,9 +9,10 @@ const Like = sequelize.define(
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4
     },
-    Liked: {
+    liked: {
       type: DataTypes.BOOLEAN,
-      allowNull: false
+      allowNull: false,
+      defaultValue: false
     }
   },
   {
