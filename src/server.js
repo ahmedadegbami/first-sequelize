@@ -37,8 +37,8 @@ const initalize = async () => {
     server.listen(PORT, async () => {
       console.log("✅ Server is listening on port " + PORT);
       await testDB();
-      await sequelize.sync({ force: true });
-      // await sequelize.sync();
+      // await sequelize.sync({ force: true });
+      await sequelize.sync();
     });
 
     server.on("error", (error) => {
