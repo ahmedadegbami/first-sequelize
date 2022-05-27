@@ -3,6 +3,7 @@ import models from "../../db/models/index.js";
 const { Product, Review, Category, ProductCategory } = models;
 import { Op } from "sequelize";
 import { query } from "express";
+import Like from "../../db/models/likes.js";
 
 const productRouter = express.Router();
 
@@ -35,7 +36,8 @@ productRouter.get("/", async (req, res, next) => {
           model: Category,
           attributes: ["name"],
           through: { attributes: [] }
-        }
+        },
+        { model: Like, attributes: ["liked"] }
       ],
       order: [["price", "DESC"]]
     });
@@ -63,6 +65,7 @@ productRouter.get("/:id", async (req, res, next) => {
 
 productRouter.post("/", async (req, res, next) => {
   try {
+    // THIS WHERE WE DISSTRUCTURED AND ADDED CATEGORIES
     const { name, description, image, price, categories } = req.body;
     const newProduct = await Product.create({
       name,
@@ -70,6 +73,7 @@ productRouter.post("/", async (req, res, next) => {
       image,
       price
     });
+    res.send(newProduct);
 
     const productId = newProduct.id;
     const data = [];
@@ -77,8 +81,6 @@ productRouter.post("/", async (req, res, next) => {
       data.push({ productId, categoryId });
     });
     await ProductCategory.bulkCreate(data);
-
-    res.send(newProduct);
   } catch (error) {
     console.log(error);
     next(error);
