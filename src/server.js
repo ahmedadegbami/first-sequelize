@@ -40,7 +40,7 @@ const initalize = async () => {
       await sequelize.sync({ force: true });
       // await sequelize.sync();
     });
-    console.table(listEndpoints(server));
+
     server.on("error", (error) => {
       console.log("❌ Server is not running due to error : " + error);
     });
