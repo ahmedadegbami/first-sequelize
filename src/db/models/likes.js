@@ -8,11 +8,6 @@ const Like = sequelize.define(
       primaryKey: true,
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4
-    },
-    liked: {
-      type: DataTypes.BOOLEAN,
-      allowNull: false,
-      defaultValue: false
     }
   },
   {

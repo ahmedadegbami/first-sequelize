@@ -7,11 +7,10 @@ const likeRouter = express.Router();
 // Create route to like Product
 likeRouter.post("/", async (req, res, next) => {
   try {
-    const { productId, userId, liked } = req.body;
+    const { productId, userId } = req.body;
     const like = await Like.create({
       productId,
-      userId,
-      liked
+      userId
     });
     res.send(like);
   } catch (error) {
