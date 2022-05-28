@@ -36,7 +36,8 @@ productRouter.get("/", async (req, res, next) => {
           model: Category,
           attributes: ["name"],
           through: { attributes: [] }
-        }
+        },
+        { model: Like, attributes: ["userId", "productId"] }
       ],
       order: [["price", "DESC"]]
     });
