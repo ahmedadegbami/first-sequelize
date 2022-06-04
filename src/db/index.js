@@ -7,7 +7,7 @@ const sequelize = new Sequelize(PGDATABASE, PGUSER, PGPASSWORD, {
   port: PGPORT,
   dialect: "postgres",
   logging: false,
-  // ADD THIS FOR HEROKU
+  // ADD THIS FOR HEROKUe
   dialectOptions: {
     ssl: {
       require: true,
